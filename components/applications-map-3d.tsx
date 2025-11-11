@@ -33,7 +33,7 @@ import {
 import * as THREE from "three";
 import Link from "next/link";
 
-// Application node component with 3D sphere
+// Application node component with 3D spherez
 function ApplicationNode({
   app,
   position,

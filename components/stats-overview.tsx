@@ -1,20 +1,25 @@
-"use client"
+"use client";
 
-import { Card } from "@/components/ui/card"
-import { AlertTriangle, CheckCircle2, TrendingUp, Database } from "lucide-react"
-import { useEffect, useState } from "react"
-import { fetchEstatisticas, type Estatisticas } from "@/lib/api"
+import { Card } from "@/components/ui/card";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  TrendingUp,
+  Database,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { fetchEstatisticas, type Estatisticas } from "@/lib/api";
 
 export function StatsOverview() {
-  const [stats, setStats] = useState<Estatisticas | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [stats, setStats] = useState<Estatisticas | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchEstatisticas()
       .then(setStats)
       .catch(console.error)
-      .finally(() => setLoading(false))
-  }, [])
+      .finally(() => setLoading(false));
+  }, []);
 
   if (loading || !stats) {
     return (
@@ -25,7 +30,7 @@ export function StatsOverview() {
           </Card>
         ))}
       </div>
-    )
+    );
   }
 
   const statsData = [
@@ -39,7 +44,10 @@ export function StatsOverview() {
     {
       label: "Aplicações Críticas",
       value: stats.total_criticas.toString(),
-      percentage: `${((stats.total_criticas / stats.total_aplicacoes) * 100).toFixed(1)}%`,
+      percentage: `${(
+        (stats.total_criticas / stats.total_aplicacoes) *
+        100
+      ).toFixed(1)}%`,
       icon: AlertTriangle,
       variant: "destructive" as const,
     },
@@ -57,33 +65,52 @@ export function StatsOverview() {
       icon: CheckCircle2,
       variant: "success" as const,
     },
-  ]
+  ];
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {statsData.map((stat, index) => (
-        <Card key={index} className="p-6 border-primary/20 bg-card hover:border-primary/40 transition-colors">
+        <Card
+          key={index}
+          className="p-6 border-primary/20 bg-card hover:border-primary/40 transition-colors"
+        >
           <div className="flex items-start justify-between">
             <div className="flex-1">
-              <p className="text-sm text-muted-foreground font-medium">{stat.label}</p>
+              <p className="text-sm text-muted-foreground font-medium">
+                {stat.label}
+              </p>
               <div className="mt-2 flex items-baseline gap-2">
-                <h3 className={`text-3xl font-bold tracking-tight ${stat.variant === "primary" ? "text-primary" : ""}`}>
+                <h3
+                  className={`text-3xl font-bold tracking-tight ${
+                    stat.variant === "primary" ? "text-primary" : ""
+                  }`}
+                >
                   {stat.value}
                 </h3>
-                {stat.suffix && <span className="text-sm text-muted-foreground">{stat.suffix}</span>}
+                {stat.suffix && (
+                  <span className="text-sm text-muted-foreground">
+                    {stat.suffix}
+                  </span>
+                )}
                 {stat.percentage && (
-                  <span className="text-sm font-medium text-muted-foreground">({stat.percentage})</span>
+                  <span className="text-sm font-medium text-muted-foreground">
+                    ({stat.percentage})
+                  </span>
                 )}
               </div>
-              {stat.description && <p className="mt-1 text-xs text-muted-foreground">{stat.description}</p>}
+              {stat.description && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {stat.description}
+                </p>
+              )}
             </div>
             <div
               className={`p-3 rounded-lg ${
                 stat.variant === "destructive"
                   ? "bg-red-500/10 text-red-500"
                   : stat.variant === "success"
-                    ? "bg-emerald-500/10 text-emerald-500"
-                    : "bg-primary/10 text-primary"
+                  ? "bg-emerald-500/10 text-emerald-500"
+                  : "bg-primary/10 text-primary"
               }`}
             >
               <stat.icon className="h-5 w-5" />
@@ -92,5 +119,5 @@ export function StatsOverview() {
         </Card>
       ))}
     </div>
-  )
+  );
 }
