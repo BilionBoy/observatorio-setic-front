@@ -14,7 +14,7 @@ export function DashboardHeader() {
           >
             {/* ✅ Logo SETIC */}
             <Image
-              src="/setic-logo.png"
+              src="/sauron.svg"
               alt="Logo SETIC"
               width={50}
               height={50}
