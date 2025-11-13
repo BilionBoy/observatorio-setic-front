@@ -43,11 +43,8 @@ export function StatsOverview() {
     },
     {
       label: "Aplicações Críticas",
-      value: stats.total_criticas.toString(),
-      percentage: `${(
-        (stats.total_criticas / stats.total_aplicacoes) *
-        100
-      ).toFixed(1)}%`,
+      value: "",
+      percentage: ``,
       icon: AlertTriangle,
       variant: "destructive" as const,
     },
@@ -60,8 +57,8 @@ export function StatsOverview() {
     },
     {
       label: "Usando SAURON",
-      value: stats.usa_sauron.toString(),
-      percentage: "100%",
+      value: "-",
+      percentage: "%",
       icon: CheckCircle2,
       variant: "success" as const,
     },

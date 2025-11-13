@@ -28,7 +28,10 @@ export interface Estatisticas {
 export async function fetchEstatisticas(): Promise<Estatisticas> {
   const response = await fetch(`${API_BASE_URL}/aplicacoes/estatisticas`);
   if (!response.ok) throw new Error("Failed to fetch statistics");
-  return response.json();
+
+  const json = await response.json();
+  // 👇 se vier com { data: {...} }, usa o conteúdo interno; senão, usa o próprio objeto
+  return json.data ?? json;
 }
 
 export async function fetchAplicacoes(params?: {
