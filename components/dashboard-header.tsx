@@ -66,18 +66,6 @@ export function DashboardHeader() {
             >
               <Link href="/ranking">Ranking</Link>
             </Button>
-
-            <Button
-              variant="ghost"
-              size="sm"
-              asChild
-              className="text-foreground hover:text-primary hover:bg-primary/10"
-            >
-              <Link href="/map">
-                <Layers className="mr-2 h-4 w-4" />
-                Mapa 3D
-              </Link>
-            </Button>
           </nav>
         </div>
 
