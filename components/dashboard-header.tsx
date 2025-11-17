@@ -12,7 +12,6 @@ export function DashboardHeader() {
             href="/"
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            {/* ✅ Logo SETIC */}
             <Image
               src="/sauron.svg"
               alt="Logo SETIC"
@@ -66,6 +65,15 @@ export function DashboardHeader() {
             >
               <Link href="/ranking">Ranking</Link>
             </Button>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="text-foreground hover:text-primary hover:bg-primary/10"
+            >
+              <Link href="/sauron">SAURON</Link>
+            </Button>
           </nav>
         </div>
 
@@ -74,9 +82,12 @@ export function DashboardHeader() {
             variant="outline"
             size="sm"
             className="border-primary/30 hover:bg-primary/10 text-primary bg-transparent"
+            asChild
           >
-            <Shield className="mr-2 h-4 w-4" />
-            SAURON v2
+            <Link href="/sauron">
+              <Shield className="mr-2 h-4 w-4" />
+              SAURON v2
+            </Link>
           </Button>
 
           <Button

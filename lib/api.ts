@@ -2,6 +2,10 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000/api/v1";
 
+// ============================================
+// INTERFACES - APLICAÇÕES
+// ============================================
+
 export interface Aplicacao {
   id: number;
   nome: string;
@@ -25,12 +29,77 @@ export interface Estatisticas {
   usa_sauron: number;
 }
 
+// ============================================
+// INTERFACES - SAURON
+// ============================================
+
+export interface SauronModule {
+  id: number;
+  nome: string;
+  linguagem: string;
+  versao_dotnet: string;
+  tipo_projeto: string;
+  ef_core: boolean;
+  ef_core_versao: string | null;
+  pacotes_nuget_qtd: number;
+  impacto: string;
+}
+
+export interface SauronModuleDetail extends SauronModule {
+  pacotes_nuget_lista: string;
+  referencias_internas: string;
+  usa_identityserver: boolean;
+  usa_ldap: boolean;
+  usa_jwt_manual: boolean;
+  tipo_banco: string;
+  possui_migrations: boolean;
+  qtde_migrations: number;
+  usa_swagger: boolean;
+  controllers: string;
+  observacao: string;
+  acao_recomendada: string;
+  dependencias_internas: Array<{
+    nome: string;
+    versao: string;
+    critica: boolean;
+  }>;
+}
+
+export interface SauronStatistics {
+  total_modulos: number;
+  por_tipo: Record<string, number>;
+  por_linguagem: Record<string, number>;
+  por_dotnet: Record<string, number>;
+  usa_identityserver: number;
+  usa_ldap: number;
+  usa_jwt_manual: number;
+  com_ef_core: number;
+  com_migrations: number;
+  dependencias_criticas: number;
+}
+
+export interface SauronRisks {
+  alto: number;
+  medio: number;
+  baixo: number;
+}
+
+export interface CriticalDependency {
+  nome: string;
+  versao: string;
+  modulo: string;
+  modulo_id: number;
+}
+
+// ============================================
+// FUNÇÕES - APLICAÇÕES
+// ============================================
+
 export async function fetchEstatisticas(): Promise<Estatisticas> {
   const response = await fetch(`${API_BASE_URL}/aplicacoes/estatisticas`);
   if (!response.ok) throw new Error("Failed to fetch statistics");
 
   const json = await response.json();
-  // 👇 se vier com { data: {...} }, usa o conteúdo interno; senão, usa o próprio objeto
   return json.data ?? json;
 }
 
@@ -81,4 +150,43 @@ export async function fetchVulnerabilidades(
   );
   if (!response.ok) return [];
   return response.json();
+}
+
+// ============================================
+// FUNÇÕES - SAURON
+// ============================================
+
+export async function fetchSauronModules(): Promise<SauronModule[]> {
+  const response = await fetch(`${API_BASE_URL}/sauron_modulos`);
+  if (!response.ok) throw new Error("Failed to fetch SAURON modules");
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+export async function fetchSauronStatistics(): Promise<SauronStatistics> {
+  const response = await fetch(`${API_BASE_URL}/sauron_modulos/estatisticas`);
+  if (!response.ok) throw new Error("Failed to fetch SAURON statistics");
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+export async function fetchSauronRisks(): Promise<SauronRisks> {
+  const response = await fetch(`${API_BASE_URL}/sauron_modulos/riscos`);
+  if (!response.ok) throw new Error("Failed to fetch SAURON risks");
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+export async function fetchCriticalDependencies(): Promise<CriticalDependency[]> {
+  const response = await fetch(`${API_BASE_URL}/sauron_modulos/dependencias_criticas`);
+  if (!response.ok) throw new Error("Failed to fetch critical dependencies");
+  const json = await response.json();
+  return json.data ?? json;
+}
+
+export async function fetchSauronModuleDetail(id: number): Promise<SauronModuleDetail> {
+  const response = await fetch(`${API_BASE_URL}/sauron_modulos/${id}`);
+  if (!response.ok) throw new Error("Failed to fetch SAURON module detail");
+  const json = await response.json();
+  return json.data ?? json;
 }
