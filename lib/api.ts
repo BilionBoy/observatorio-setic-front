@@ -18,6 +18,33 @@ export interface Aplicacao {
   justificativa_prontidao?: string;
 }
 
+// ============================================
+// INTERFACES - SCAN RESULTS
+// ============================================
+
+export interface ScanResult {
+  id: number;
+  scan_file: string;
+  scan_name: string;
+
+  critical: number;
+  high: number;
+  medium: number;
+  low: number;
+
+  cvss_base_score_max: number | null;
+  cvssv3_base_score_max: number | null;
+  total: number;
+
+  aplicacao_id: number | null;
+  aplicacao_nome: string | null;
+  versao_dotnet: string | null;
+  ef_core: string | null;
+  linguagem: string | null;
+
+  aplicacao?: Aplicacao | null;
+}
+
 export interface Estatisticas {
   total_aplicacoes: number;
   por_risco: Record<string, number>;
@@ -177,16 +204,34 @@ export async function fetchSauronRisks(): Promise<SauronRisks> {
   return json.data ?? json;
 }
 
-export async function fetchCriticalDependencies(): Promise<CriticalDependency[]> {
-  const response = await fetch(`${API_BASE_URL}/sauron_modulos/dependencias_criticas`);
+export async function fetchCriticalDependencies(): Promise<
+  CriticalDependency[]
+> {
+  const response = await fetch(
+    `${API_BASE_URL}/sauron_modulos/dependencias_criticas`
+  );
   if (!response.ok) throw new Error("Failed to fetch critical dependencies");
   const json = await response.json();
   return json.data ?? json;
 }
 
-export async function fetchSauronModuleDetail(id: number): Promise<SauronModuleDetail> {
+export async function fetchSauronModuleDetail(
+  id: number
+): Promise<SauronModuleDetail> {
   const response = await fetch(`${API_BASE_URL}/sauron_modulos/${id}`);
   if (!response.ok) throw new Error("Failed to fetch SAURON module detail");
   const json = await response.json();
   return json.data ?? json;
+}
+
+export async function fetchScanResults(): Promise<ScanResult[]> {
+  const response = await fetch(`${API_BASE_URL}/scan`);
+  if (!response.ok) throw new Error("Failed to fetch scan results");
+  return response.json();
+}
+
+export async function fetchScanResult(id: number): Promise<ScanResult> {
+  const response = await fetch(`${API_BASE_URL}/scan/${id}`);
+  if (!response.ok) throw new Error("Failed to fetch scan result");
+  return response.json();
 }

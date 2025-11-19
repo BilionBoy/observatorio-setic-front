@@ -74,6 +74,15 @@ export function DashboardHeader() {
             >
               <Link href="/sauron">SAURON</Link>
             </Button>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="text-foreground hover:text-primary hover:bg-primary/10"
+            >
+              <Link href="/scan">Scan</Link>
+            </Button>
           </nav>
         </div>
 
