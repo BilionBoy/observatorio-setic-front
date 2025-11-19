@@ -19,6 +19,7 @@ export function ScanTable({ data }: Props) {
               <th className="p-2">Alto</th>
               <th className="p-2">Médio</th>
               <th className="p-2">Baixo</th>
+              <th className="p-2">.NET</th>
               <th className="p-2">Aplicação</th>
               <th className="p-2">Linguagem</th>
               <th className="p-2">CVSS Máx</th>
@@ -34,6 +35,8 @@ export function ScanTable({ data }: Props) {
                 <td className="p-2 text-yellow-600">{s.medium}</td>
                 <td className="p-2 text-green-700">{s.low}</td>
 
+                <td className="p-2">{s.versao_dotnet ?? "—"}</td>
+
                 <td className="p-2">
                   {s.aplicacao_nome || (
                     <span className="text-gray-400">
@@ -42,10 +45,10 @@ export function ScanTable({ data }: Props) {
                   )}
                 </td>
 
-                <td className="p-2">{s.linguagem || "-"}</td>
+                <td className="p-2">{s.linguagem ?? "—"}</td>
 
                 <td className="p-2">
-                  {s.cvssv3_base_score_max || s.cvss_base_score_max || "-"}
+                  {s.cvssv3_base_score_max ?? s.cvss_base_score_max ?? "—"}
                 </td>
               </tr>
             ))}

@@ -14,7 +14,7 @@ export default function ScanPage() {
   }, []);
 
   // ------------------------
-  // EXPORTAR PDF — 100% FUNCIONAL
+  // EXPORTAR PDF — com versao_dotnet
   // ------------------------
   const exportPDF = useCallback(async () => {
     const jsPDF = (await import("jspdf")).default;
@@ -32,6 +32,7 @@ export default function ScanPage() {
       { header: "Alto", dataKey: "high" },
       { header: "Médio", dataKey: "medium" },
       { header: "Baixo", dataKey: "low" },
+      { header: ".NET", dataKey: "versao_dotnet" }, // 👈 AQUI
       { header: "Aplicação", dataKey: "aplicacao_nome" },
       { header: "Linguagem", dataKey: "linguagem" },
       { header: "CVSS Máx", dataKey: "cvss" },
@@ -43,7 +44,8 @@ export default function ScanPage() {
       high: s.high,
       medium: s.medium,
       low: s.low,
-      aplicacao_nome: s.aplicacao_nome ?? "Outra Tecnologia || Outro Órgão",
+      versao_dotnet: s.versao_dotnet ?? "—", // 👈 AQUI
+      aplicacao_nome: s.aplicacao_nome ?? "—",
       linguagem: s.linguagem ?? "—",
       cvss: s.cvssv3_base_score_max ?? s.cvss_base_score_max ?? "—",
     }));
@@ -71,7 +73,7 @@ export default function ScanPage() {
   }, [scans]);
 
   // ------------------------
-  // EXPORTAR EXCEL
+  // EXPORTAR EXCEL (já inclui versao_dotnet automaticamente)
   // ------------------------
   const exportExcel = useCallback(async () => {
     const xlsx = await import("xlsx");
